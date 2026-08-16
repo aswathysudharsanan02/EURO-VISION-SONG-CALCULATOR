@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eurovision Success Predictor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4b3f72;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5568d9;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .result h2 {
+            color: #2e7d32;
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffebee;
+            color: #c62828;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎤 Eurovision Success Predictor</h1>
+
+    <p class="description">
+        Enter the song details to predict Eurovision points.
+    </p>
+
+    <form action="/predict" method="POST">
+
+        <!-- 1. Song In English -->
+        <div class="form-group">
+            <label>Song In English</label>
+            <select name="Song.In.English" required>
+                <option value="">Select</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+
+        <!-- 2. Group / Solo -->
+        <div class="form-group">
+            <label>Group / Solo</label>
+            <select name="Group.Solo" required>
+                <option value="">Select</option>
+                <option value="Group">Group</option>
+                <option value="Solo">Solo</option>
+            </select>
+        </div>
+
+        <!-- 3. Danceability -->
+        <div class="form-group">
+            <label>Danceability</label>
+            <input type="number" name="danceability"
+                   min="0" max="1" step="0.01" required>
+        </div>
+
+        <!-- 4. Energy -->
+        <div class="form-group">
+            <label>Energy</label>
+            <input type="number" name="energy"
+                   min="0" max="1" step="0.01" required>
+        </div>
+
+        <!-- 5. Valence -->
+        <div class="form-group">
+            <label>Valence</label>
+            <input type="number" name="valence"
+                   min="0" max="1" step="0.01" required>
+        </div>
+
+        <!-- 6. Time Signature -->
+        <div class="form-group">
+            <label>Time Signature</label>
+            <input type="number" name="time_signature"
+                   min="1" step="1" required>
+        </div>
+
+        <!-- 7. Duration -->
+        <div class="form-group">
+            <label>Duration (ms)</label>
+            <input type="number" name="duration"
+                   min="0" step="1" required>
+        </div>
+
+        <!-- 8. Happiness -->
+        <div class="form-group">
+            <label>Happiness</label>
+            <input type="number" name="Happiness"
+                   step="0.01" required>
+        </div>
+
+        <!-- 9. Year -->
+        <div class="form-group">
+            <label>Year</label>
+            <input type="number" name="Year"
+                   min="1956" max="2026" required>
+        </div>
+
+        <!-- 10. Acousticness -->
+        <div class="form-group">
+            <label>Acousticness</label>
+            <input type="number" name="acousticness"
+                   min="0" max="1" step="0.01" required>
+        </div>
+
+        <!-- 11. Mode -->
+        <div class="form-group">
+            <label>Mode</label>
+            <select name="mode" required>
+                <option value="">Select</option>
+                <option value="0">Minor</option>
+                <option value="1">Major</option>
+            </select>
+        </div>
+
+        <!-- 12. Tempo -->
+        <div class="form-group">
+            <label>Tempo</label>
+            <input type="number" name="tempo"
+                   min="0" step="0.01" required>
+        </div>
+
+        <!-- 13. Liveness -->
+        <div class="form-group">
+            <label>Liveness</label>
+            <input type="number" name="liveness"
+                   min="0" max="1" step="0.01" required>
+        </div>
+
+        <!-- 14. Key -->
+        <div class="form-group">
+            <label>Key</label>
+            <input type="number" name="key"
+                   min="0" max="11" step="1" required>
+        </div>
+
+        <!-- 15. Speechiness -->
+        <div class="form-group">
+            <label>Speechiness</label>
+            <input type="number" name="speechiness"
+                   min="0" max="1" step="0.01" required>
+        </div>
+
+        <!-- 16. Loudness -->
+        <div class="form-group">
+            <label>Loudness</label>
+            <input type="number" name="loudness"
+                   step="0.01" required>
+        </div>
+
+        <!-- 17. Artist Gender -->
+        <div class="form-group">
+            <label>Artist Gender</label>
+            <select name="Artist.gender" required>
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Mixed">Mixed</option>
+            </select>
+        </div>
+
+        <button type="submit">
+            🔮 Predict Eurovision Points
+        </button>
+
+    </form>
+
+    {% if prediction is defined %}
+    <div class="result">
+        <h2>Predicted Eurovision Points: {{ prediction }}</h2>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="error">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>
